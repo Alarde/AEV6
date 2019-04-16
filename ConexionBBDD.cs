@@ -10,7 +10,12 @@ namespace AEV6
     class ConexionBBDD
     {
         private MySqlConnection conexion;
-        public MySqlConnection Conexion { get { return conexion; } }
+
+        public MySqlConnection Conexion {
+            get {
+                return conexion;
+            } 
+        }
         
 
         public ConexionBBDD()
@@ -31,23 +36,29 @@ namespace AEV6
 
         public bool AbrirConexion()
         {
-            try
-            {
-                conexion.Open();
-                return true;
-            }
-            catch (MySqlException ex)
-            {
-                switch (ex.Number) //La app responderá en funcion de qué error ha ocurrido. Los más comunes son el 0 y el 1045
+            //Verificar si la conexión está abierta
+            if(conexion != null && conexion.State == ConnectionState.Closed){
+                try
                 {
-                    case 0: //El error 0 es que no se ha podido conectar con el servidor
-                        System.Windows.Forms.MessageBox.Show("No se pudo conectar con el servidor.", "Error de conexión");
-                        break;
-                    case 1045: //El error 1045 es que se ha introducido un usuario y/o contraseña incorrectos.
-                        System.Windows.Forms.MessageBox.Show("Usuario o contraseña erróneos, inténtelo de nuevo.", "Datos erróneos");
-                        break;
+                    conexion.Open();
+                    return true;
                 }
-                return false;
+                catch (MySqlException ex)
+                {
+                    switch (ex.Number) //La app responderá en funcion de qué error ha ocurrido. Los más comunes son el 0 y el 1045
+                    {
+                        case 0: //El error 0 es que no se ha podido conectar con el servidor
+                            System.Windows.Forms.MessageBox.Show("No se pudo conectar con el servidor.", "Error de conexión");
+                            break;
+                        case 1045: //El error 1045 es que se ha introducido un usuario y/o contraseña incorrectos.
+                            System.Windows.Forms.MessageBox.Show("Usuario o contraseña erróneos, inténtelo de nuevo.", "Datos erróneos");
+                            break;
+                    }
+                    return false;
+                }
+            }else{
+                //Como mi conexión está abierta, devuelvo true
+                return true;
             }
         }
 
