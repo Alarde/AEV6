@@ -50,10 +50,6 @@ namespace AEV6
             this.Hide();
 			Login login = new Login();
 			login.ShowDialog();
-
-         Mantenimiento mantenimiento = new Mantenimiento();//UNA VEZ ACABADO EL CODIGO DEL LOGIN HAY QUE BORRAR LAS SIGUIENTES LINEAS
-            mantenimiento.ShowDialog(); 
-            this.ShowDialog();
         }
 
         private void btnEntrada_Click(object sender, EventArgs e)
