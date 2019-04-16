@@ -185,6 +185,7 @@
             this.panelIzquierda.Name = "panelIzquierda";
             this.panelIzquierda.Size = new System.Drawing.Size(506, 292);
             this.panelIzquierda.TabIndex = 10;
+            this.panelIzquierda.Paint += new System.Windows.Forms.PaintEventHandler(this.PanelIzquierda_Paint);
             // 
             // lblx
             // 

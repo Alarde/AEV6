@@ -13,8 +13,8 @@ namespace AEV6
 {
     public partial class Mantenimiento : Form
     {
-        ConexionBBDD bdatos = new ConexionBBDD();
-        MySqlConnection conexion = new MySqlConnection();
+        //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
+        //Alarde - MySqlConnection conexion = new MySqlConnection();
 
         public Mantenimiento()
         {
@@ -23,8 +23,8 @@ namespace AEV6
 
 		private void Mantenimiento_Load(object sender, EventArgs e) //Timer para mostrar la hora
 		{
-            bdatos.AbrirConexion();
-			timer1.Start();
+            //Alarde - bdatos.AbrirConexion();
+            timer1.Start();
 			lblDate.Text = DateTime.Now.ToShortDateString();
 			lblTimer.Text = DateTime.Now.ToLongTimeString();
 			txtClave.Enabled = false;
@@ -39,15 +39,15 @@ namespace AEV6
 
 		private void CargarListaEmpleados() //Metodo para cargar el datagridview con los empleados ya dados de alta directamente desde la base de datos.
 		{
-			//if (bdatos.AbrirConexion())
-			//{
-				dgvMantenimiento.DataSource = Empleado.BuscarEmpleados(bdatos.Conexion);
-				bdatos.CerrarConexion();
-			//}
-			//else MessageBox.Show("No se ha podido conectar con la base de datos para cargar la lista de empleados.");
-		}
+            //if (bdatos.AbrirConexion())
+            //{
+            //Alarde - dgvMantenimiento.DataSource = Empleado.BuscarEmpleados(bdatos.Conexion);
+            //Alarde - bdatos.CerrarConexion();
+            //}
+            //else MessageBox.Show("No se ha podido conectar con la base de datos para cargar la lista de empleados.");
+        }
 
-		private bool ValidarDatos()
+        private bool ValidarDatos()
 		{
 			bool correcto = true;
 
@@ -92,14 +92,14 @@ namespace AEV6
 						if(chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
 						{
 							Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, txtClave.Text);
-							Empleado.AgregarEmpleado(conexion, emp);
-						}
-						else //Si no, usamos el constructor de un empleado normal
+                        //Alarde - Empleado.AgregarEmpleado(conexion, emp);
+                    }
+                    else //Si no, usamos el constructor de un empleado normal
 						{
 							Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked);
-							Empleado.AgregarEmpleado(conexion, emp);
-						}
-					}
+                        //Alarde - Empleado.AgregarEmpleado(conexion, emp);
+                    }
+                }
 					else MessageBox.Show("Hay datos vacíos o incorrectos.");
 				//}
 				//else
@@ -136,7 +136,7 @@ namespace AEV6
 
         private void btnCerrar_Click_1(object sender, EventArgs e)
         {
-			bdatos.CerrarConexion();
+            //Alarde - bdatos.CerrarConexion();
             this.Dispose();
         }
 

@@ -13,22 +13,22 @@ namespace AEV6
 {
     public partial class Login : Form
     {
-		ConexionBBDD bdatos = new ConexionBBDD();
-		MySqlConnection conexion = new MySqlConnection();
+        //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
+        //Alarde - MySqlConnection conexion = new MySqlConnection();
 
-		public Login()
+        public Login()
         {
             InitializeComponent();
         }
 
         private void Login_Load(object sender, EventArgs e)
         {
-            bdatos.AbrirConexion();
+            //Alarde - bdatos.AbrirConexion();
             //if (bdatos.AbrirConexion()) MessageBox.Show("Se ha abierto el login");
             //else MessageBox.Show("No se ha abierto el login");
 
         }
-		private bool ValidarDatos()
+        private bool ValidarDatos()
 		{
 			bool correcto = true;
 
@@ -52,36 +52,29 @@ namespace AEV6
 			}
 			return correcto;
 		}
-		
-		private void btnAceptar_Click(object sender, EventArgs e)
-		{
-			//if (bdatos.AbrirConexion())
-			//{
-				if (ValidarDatos()) //Si no hay ningun campo vacio
-				{
-					try
-					{
-						string consulta = string.Format("SELECT usuario, clave FROM empleados WHERE usuario=@usuario AND " +
-							"clave=@clave");
-						MySqlCommand comando = new MySqlCommand(consulta, conexion);
-						comando.Parameters.AddWithValue("@usuario", txtUsuario.Text);
-						comando.Parameters.AddWithValue("@clave", txtContraseña.Text);
-						MySqlDataReader reader = comando.ExecuteReader();
 
-						if (reader.HasRows) //Si hay una fila escondes este form y entras al de mantenimiento
-						{
-							this.Hide();
-							Mantenimiento mantenimiento = new Mantenimiento();
-							mantenimiento.Show();
-						}
-						else MessageBox.Show("El usuario/contraseña no son correctos.");
-					}
-					catch (Exception ex)
-					{
-						MessageBox.Show(ex.Message);
-					}
-				}
-		}
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            if (ValidarDatos()){ //Si no hay ningun campo vacio
+                var dbCon = DBConnection.Instance();
+                if (dbCon.IsConnect())
+                {
+                    string query = string.Format("SELECT nif, clave FROM empleados WHERE nif=@nif AND " +
+                                "clave=@clave");
+                    var cmd = new MySqlCommand(query, dbCon.Connection);
+                    cmd.Parameters.AddWithValue("@nif", txtUsuario.Text);
+                    cmd.Parameters.AddWithValue("@clave", txtContraseña.Text);
+                    var reader = cmd.ExecuteReader();
+                    if (reader.HasRows) //Si hay una fila escondes este form y entras al de mantenimiento
+                    {
+                        this.Hide();
+                        Mantenimiento mantenimiento = new Mantenimiento();
+                        mantenimiento.Show();
+                    }
+                    reader.Close();
+                }
+            }
+        }
 
 		private void btnVaciar_Click(object sender, EventArgs e)
 		{
@@ -97,10 +90,15 @@ namespace AEV6
 
         private void lblVolver_Click(object sender, EventArgs e)
         {
-			bdatos.CerrarConexion();
+            //Alarde - bdatos.CerrarConexion();
             this.Hide();
             Form1 form = new Form1();
             form.Show();
+        }
+
+        private void Panel1_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }

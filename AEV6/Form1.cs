@@ -13,8 +13,6 @@ namespace AEV6
 {
     public partial class Form1 : Form
     {
-        ConexionBBDD bdatos = new ConexionBBDD();
-		MySqlConnection conexion = new MySqlConnection();       
 
         public Form1()
         {
@@ -35,7 +33,7 @@ namespace AEV6
 
             this.ActiveControl = txtnif; //Cuando abre 
 
-			bdatos.AbrirConexion();
+			//Alarde - bdatos.AbrirConexion();
 			//if (bdatos.AbrirConexion()) MessageBox.Show("se abre");
 			//else MessageBox.Show("No se ha podido conectar con la base de datos."); //Si nada mas abrir el programa no se ha podido conectar con la base de datos te informa
         }
@@ -53,7 +51,7 @@ namespace AEV6
 			Login login = new Login();
 			login.ShowDialog();
 
-            Mantenimiento mantenimiento = new Mantenimiento();//UNA VEZ ACABADO EL CODIGO DEL LOGIN HAY QUE BORRAR LAS SIGUIENTES LINEAS
+         Mantenimiento mantenimiento = new Mantenimiento();//UNA VEZ ACABADO EL CODIGO DEL LOGIN HAY QUE BORRAR LAS SIGUIENTES LINEAS
             mantenimiento.ShowDialog(); 
             this.ShowDialog();
         }
@@ -61,9 +59,9 @@ namespace AEV6
         private void btnEntrada_Click(object sender, EventArgs e)
         {
 
-			if (Empleado.ValidarNIF(txtnif.Text))
+			/*Alarde - if (Empleado.ValidarNIF(txtnif.Text))
 			{
-				if (Empleado.ExisteEmpleado(conexion, txtnif.Text))
+				(Empleado.ExisteEmpleado(txtnif.Text))
 				{
 					MessageBox.Show("Todo guay");
 				}
@@ -71,7 +69,7 @@ namespace AEV6
 				{
 					MessageBox.Show("Error");
 				}
-			}
+			}*/
         }
 
         private void btnSalida_Click(object sender, EventArgs e)
@@ -87,7 +85,12 @@ namespace AEV6
         private void lblx_Click(object sender, EventArgs e)
         {
             Application.Exit(); //Cierra la aplicacion
-            bdatos.CerrarConexion();
+            //Alarde - bdatos.CerrarConexion();
+        }
+
+        private void PanelIzquierda_Paint(object sender, PaintEventArgs e)
+        {
+
         }
     }
 }
