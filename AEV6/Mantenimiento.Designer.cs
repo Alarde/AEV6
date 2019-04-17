@@ -36,16 +36,10 @@
             this.btnInformes = new System.Windows.Forms.Button();
             this.btnCerrar = new System.Windows.Forms.Button();
             this.dgvMantenimiento = new System.Windows.Forms.DataGridView();
-            this.columnanif = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.admin = new System.Windows.Forms.DataGridViewCheckBoxColumn();
-            this.columnaUsuario = new System.Windows.Forms.DataGridViewTextBoxColumn();
-            this.columnaClave = new System.Windows.Forms.DataGridViewTextBoxColumn();
             this.errorMantenimiento = new System.Windows.Forms.ErrorProvider(this.components);
             this.grpDataGrid = new System.Windows.Forms.GroupBox();
             this.btnActualizar = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.txtbuscar = new System.Windows.Forms.TextBox();
             this.lblBuscar = new System.Windows.Forms.Label();
             this.btnBuscar = new System.Windows.Forms.Button();
             this.lblnif = new System.Windows.Forms.Label();
@@ -61,6 +55,11 @@
             this.lblTimer = new System.Windows.Forms.Label();
             this.lblDate = new System.Windows.Forms.Label();
             this.timer1 = new System.Windows.Forms.Timer(this.components);
+            this.columnanif = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.nombre = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.apellido = new System.Windows.Forms.DataGridViewTextBoxColumn();
+            this.admin = new System.Windows.Forms.DataGridViewCheckBoxColumn();
+            this.columnaClave = new System.Windows.Forms.DataGridViewTextBoxColumn();
             ((System.ComponentModel.ISupportInitialize)(this.dgvMantenimiento)).BeginInit();
             ((System.ComponentModel.ISupportInitialize)(this.errorMantenimiento)).BeginInit();
             this.grpDataGrid.SuspendLayout();
@@ -134,49 +133,12 @@
             this.nombre,
             this.apellido,
             this.admin,
-            this.columnaUsuario,
             this.columnaClave});
             this.dgvMantenimiento.Location = new System.Drawing.Point(9, 53);
             this.dgvMantenimiento.Name = "dgvMantenimiento";
             this.dgvMantenimiento.ReadOnly = true;
             this.dgvMantenimiento.Size = new System.Drawing.Size(673, 196);
             this.dgvMantenimiento.TabIndex = 6;
-            // 
-            // columnanif
-            // 
-            this.columnanif.HeaderText = "NIF";
-            this.columnanif.Name = "columnanif";
-            this.columnanif.ReadOnly = true;
-            // 
-            // nombre
-            // 
-            this.nombre.HeaderText = "Nombre";
-            this.nombre.Name = "nombre";
-            this.nombre.ReadOnly = true;
-            // 
-            // apellido
-            // 
-            this.apellido.HeaderText = "Apellido";
-            this.apellido.Name = "apellido";
-            this.apellido.ReadOnly = true;
-            // 
-            // admin
-            // 
-            this.admin.HeaderText = "Admin";
-            this.admin.Name = "admin";
-            this.admin.ReadOnly = true;
-            // 
-            // columnaUsuario
-            // 
-            this.columnaUsuario.HeaderText = "Usuario";
-            this.columnaUsuario.Name = "columnaUsuario";
-            this.columnaUsuario.ReadOnly = true;
-            // 
-            // columnaClave
-            // 
-            this.columnaClave.HeaderText = "Clave";
-            this.columnaClave.Name = "columnaClave";
-            this.columnaClave.ReadOnly = true;
             // 
             // errorMantenimiento
             // 
@@ -185,7 +147,7 @@
             // grpDataGrid
             // 
             this.grpDataGrid.Controls.Add(this.btnActualizar);
-            this.grpDataGrid.Controls.Add(this.textBox1);
+            this.grpDataGrid.Controls.Add(this.txtbuscar);
             this.grpDataGrid.Controls.Add(this.lblBuscar);
             this.grpDataGrid.Controls.Add(this.btnBuscar);
             this.grpDataGrid.Controls.Add(this.dgvMantenimiento);
@@ -209,14 +171,14 @@
             this.btnActualizar.UseVisualStyleBackColor = true;
             this.btnActualizar.Click += new System.EventHandler(this.btnActualizar_Click);
             // 
-            // textBox1
+            // txtbuscar
             // 
-            this.textBox1.Font = new System.Drawing.Font("Century Gothic", 10F);
-            this.textBox1.Location = new System.Drawing.Point(118, 24);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(195, 23);
-            this.textBox1.TabIndex = 9;
+            this.txtbuscar.Font = new System.Drawing.Font("Century Gothic", 10F);
+            this.txtbuscar.Location = new System.Drawing.Point(118, 24);
+            this.txtbuscar.Multiline = true;
+            this.txtbuscar.Name = "txtbuscar";
+            this.txtbuscar.Size = new System.Drawing.Size(195, 23);
+            this.txtbuscar.TabIndex = 9;
             // 
             // lblBuscar
             // 
@@ -364,6 +326,36 @@
             // 
             this.timer1.Tick += new System.EventHandler(this.timer1_Tick);
             // 
+            // columnanif
+            // 
+            this.columnanif.HeaderText = "NIF";
+            this.columnanif.Name = "columnanif";
+            this.columnanif.ReadOnly = true;
+            // 
+            // nombre
+            // 
+            this.nombre.HeaderText = "Nombre";
+            this.nombre.Name = "nombre";
+            this.nombre.ReadOnly = true;
+            // 
+            // apellido
+            // 
+            this.apellido.HeaderText = "Apellido";
+            this.apellido.Name = "apellido";
+            this.apellido.ReadOnly = true;
+            // 
+            // admin
+            // 
+            this.admin.HeaderText = "Admin";
+            this.admin.Name = "admin";
+            this.admin.ReadOnly = true;
+            // 
+            // columnaClave
+            // 
+            this.columnaClave.HeaderText = "Clave";
+            this.columnaClave.Name = "columnaClave";
+            this.columnaClave.ReadOnly = true;
+            // 
             // Mantenimiento
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -408,14 +400,8 @@
         private System.Windows.Forms.Button btnCerrar;
         private System.Windows.Forms.DataGridView dgvMantenimiento;
         private System.Windows.Forms.ErrorProvider errorMantenimiento;
-		private System.Windows.Forms.DataGridViewTextBoxColumn columnanif;
-		private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
-		private System.Windows.Forms.DataGridViewTextBoxColumn apellido;
-		private System.Windows.Forms.DataGridViewCheckBoxColumn admin;
-		private System.Windows.Forms.DataGridViewTextBoxColumn columnaUsuario;
-		private System.Windows.Forms.DataGridViewTextBoxColumn columnaClave;
 		private System.Windows.Forms.GroupBox grpDataGrid;
-		private System.Windows.Forms.TextBox textBox1;
+		private System.Windows.Forms.TextBox txtbuscar;
 		private System.Windows.Forms.Label lblBuscar;
 		private System.Windows.Forms.Button btnBuscar;
 		private System.Windows.Forms.Button btnActualizar;
@@ -432,5 +418,10 @@
 		private System.Windows.Forms.Label lblTimer;
 		private System.Windows.Forms.Label lblDate;
 		private System.Windows.Forms.Timer timer1;
-	}
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnanif;
+        private System.Windows.Forms.DataGridViewTextBoxColumn nombre;
+        private System.Windows.Forms.DataGridViewTextBoxColumn apellido;
+        private System.Windows.Forms.DataGridViewCheckBoxColumn admin;
+        private System.Windows.Forms.DataGridViewTextBoxColumn columnaClave;
+    }
 }

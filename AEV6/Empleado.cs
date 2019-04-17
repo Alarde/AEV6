@@ -9,8 +9,9 @@ namespace AEV6
 {
 	class Empleado
 	{
+        public static MySqlConnection conexion = new MySqlConnection();
 
-		private string nif;
+        private string nif;
 		private string nombre;
 		private string apellido;
 		private bool admin; //True es admin, false no
@@ -61,10 +62,8 @@ namespace AEV6
 			string dni = "";
             bool correcto = true;
 			int contador = 0; //contador para la longitud del dni
-
-            //Foreach para recorrer cada numero del textbox que introduzca el usuario
-            //IMPORTANTE -> HAY QUE HABILITAR UN EVENTO DEL TXTBOX QUE CUANDO SE ACTUALICE COMPRUEBE SI HAY ERROR O NO CON EL ERRORPROVIDER
-			foreach (char elem in nif)
+            
+			foreach (char elem in nif)//Foreach para recorrer cada numero del textbox que introduzca el usuario
 			{
 				contador++;
 				if (char.IsLetter(elem) && contador != 9) //Si el caracter es una letra y no esta en la posicion 9 del nif
@@ -82,8 +81,11 @@ namespace AEV6
 							correcto = true;
 							break; //Terminamos con un break para que no añada la letra del nif introducido por el usuario al string dni
 						}
-						else correcto = false;
-						break;
+						else
+						{
+							correcto = false;
+							break;
+						}
 					}
 				}
 			}
@@ -91,7 +93,7 @@ namespace AEV6
 		}
 
         //Funcion que usaremos para corroborar que el empleado está dado de alta
-        public static bool ExisteEmpleado(MySqlConnection conexion, string nif)
+        public static bool ExisteEmpleado(string nif)
         {
             string consulta = string.Format("SELECT * FROM empleados WHERE nif = {0}", nif);
             MySqlCommand comando = new MySqlCommand(consulta, conexion);
@@ -101,7 +103,7 @@ namespace AEV6
             else return false;
         }
         
-        public int Entrada(MySqlConnection conexion, string nif)
+        public int Entrada(string nif)
         {
 			int retorno;
             string consulta = string.Format("UPDATE fichajes SET fichadoEntrada = 1 WHERE nif = {0};", nif);
@@ -120,7 +122,7 @@ namespace AEV6
 		*/
 		//Boton de agregar para el mantenimineto
 
-		public static int AgregarEmpleado(MySqlConnection conexion, Empleado emp)
+		public static int AgregarEmpleado(Empleado emp)
 		{
             int retorno;
 			string consulta = string.Format("INSERT INTO empleados (nif, nombre, apellido, admin, clave) VALUES(@nif, @nombre, @apellido, @admin, @clave)");
@@ -135,7 +137,7 @@ namespace AEV6
             return retorno;
 		}
 
-        public static int EliminarEmpleado(MySqlConnection conexion, Empleado emp)
+        public static int EliminarEmpleado(Empleado emp)
         {
             int retorno;
             string consulta = string.Format("DELETE FROM empleados WHERE nif={0} AND nombre={1} AND apellidos={2}", emp.nif, emp.nombre,
@@ -145,22 +147,46 @@ namespace AEV6
             return retorno;
         }
 
-        public static List<Empleado> BuscarEmpleados(MySqlConnection conexion) //Metodo para el informe visual de mantenimiento
+        public static List<Empleado> BuscarEmpleados() //Metodo para el informe visual de mantenimiento
         {
-			List<Empleado> empleados = new List<Empleado>();
-
-            string consulta = string.Format("SELECT nif, nombre, apellido, admin FROM empleados");
-            MySqlCommand comando = new MySqlCommand(consulta, conexion);
-            MySqlDataReader reader = comando.ExecuteReader();
-			if(reader.HasRows)
+			var dbCon = DBConnection.Instance();
+            List<Empleado> empleados = new List<Empleado>();
+            if (dbCon.IsConnect())
             {
-                while (reader.Read())
+                string consulta = string.Format("SELECT nif, nombre, apellido, admin FROM empleados");
+                var cmd = new MySqlCommand(consulta, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
                 {
-					Empleado emp = new Empleado(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3));
-					empleados.Add(emp);
+                    while (reader.Read())
+                    {
+                        Empleado emp = new Empleado(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3));
+                        empleados.Add(emp);
+                    }
                 }
+                reader.Close();
+            }return empleados;
+        }
+        public static List<Empleado> BuscarNif() //Metodo para el informe visual de mantenimiento
+        {
+            var dbCon = DBConnection.Instance();
+            List<Empleado> empleados = new List<Empleado>();
+            if (dbCon.IsConnect())
+            {
+                string consulta = string.Format("SELECT nif, nombre, apellido, admin, clave FROM empleados");
+                var cmd = new MySqlCommand(consulta, dbCon.Connection);
+                var reader = cmd.ExecuteReader();
+                if (reader.HasRows)
+                {
+                    while (reader.Read())
+                    {
+                        Empleado emp = new Empleado(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3), reader.GetString(4));
+                        empleados.Add(emp);
+                    }
+                }
+                reader.Close();
             }
-			return empleados;
+            return empleados;
         }
     }
 }

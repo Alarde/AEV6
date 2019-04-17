@@ -32,7 +32,7 @@
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblNIF = new System.Windows.Forms.Label();
             this.lblContraseña = new System.Windows.Forms.Label();
-            this.txtUsuario = new System.Windows.Forms.TextBox();
+            this.txtNif = new System.Windows.Forms.TextBox();
             this.txtContraseña = new System.Windows.Forms.TextBox();
             this.btnAceptar = new System.Windows.Forms.Button();
             this.btnVaciar = new System.Windows.Forms.Button();
@@ -108,24 +108,24 @@
             this.lblContraseña.TabIndex = 2;
             this.lblContraseña.Text = "Contraseña:";
             // 
-            // txtUsuario
+            // txtNif
             // 
-            this.txtUsuario.Font = new System.Drawing.Font("Century Gothic", 13F);
-            this.txtUsuario.Location = new System.Drawing.Point(163, 154);
-            this.txtUsuario.Multiline = true;
-            this.txtUsuario.Name = "txtUsuario";
-            this.txtUsuario.Size = new System.Drawing.Size(151, 27);
-            this.txtUsuario.TabIndex = 3;
+            this.txtNif.Font = new System.Drawing.Font("Century Gothic", 13F);
+            this.txtNif.Location = new System.Drawing.Point(163, 152);
+            this.txtNif.Name = "txtNif";
+            this.txtNif.Size = new System.Drawing.Size(151, 29);
+            this.txtNif.TabIndex = 3;
+            this.txtNif.Leave += new System.EventHandler(this.txtNif_Leave_1);
             // 
             // txtContraseña
             // 
             this.txtContraseña.Font = new System.Drawing.Font("Century Gothic", 13F);
-            this.txtContraseña.Location = new System.Drawing.Point(165, 192);
-            this.txtContraseña.Multiline = true;
+            this.txtContraseña.Location = new System.Drawing.Point(165, 187);
             this.txtContraseña.Name = "txtContraseña";
             this.txtContraseña.PasswordChar = '*';
-            this.txtContraseña.Size = new System.Drawing.Size(151, 27);
+            this.txtContraseña.Size = new System.Drawing.Size(151, 29);
             this.txtContraseña.TabIndex = 4;
+            this.txtContraseña.Leave += new System.EventHandler(this.txtContraseña_Leave);
             // 
             // btnAceptar
             // 
@@ -212,7 +212,7 @@
             this.panel1.Controls.Add(this.chkMostrarPass);
             this.panel1.Controls.Add(this.lblContraseña);
             this.panel1.Controls.Add(this.lblNIF);
-            this.panel1.Controls.Add(this.txtUsuario);
+            this.panel1.Controls.Add(this.txtNif);
             this.panel1.Controls.Add(this.txtContraseña);
             this.panel1.Controls.Add(this.btnAceptar);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Right;
@@ -300,16 +300,16 @@
             // pictureBox6
             // 
             this.pictureBox6.BackColor = System.Drawing.Color.White;
-            this.pictureBox6.Location = new System.Drawing.Point(156, 192);
+            this.pictureBox6.Location = new System.Drawing.Point(156, 186);
             this.pictureBox6.Name = "pictureBox6";
-            this.pictureBox6.Size = new System.Drawing.Size(165, 5);
+            this.pictureBox6.Size = new System.Drawing.Size(165, 8);
             this.pictureBox6.TabIndex = 18;
             this.pictureBox6.TabStop = false;
             // 
             // pictureBox5
             // 
             this.pictureBox5.BackColor = System.Drawing.Color.White;
-            this.pictureBox5.Location = new System.Drawing.Point(156, 154);
+            this.pictureBox5.Location = new System.Drawing.Point(156, 152);
             this.pictureBox5.Name = "pictureBox5";
             this.pictureBox5.Size = new System.Drawing.Size(165, 5);
             this.pictureBox5.TabIndex = 17;
@@ -383,12 +383,17 @@
 
         }
 
-		#endregion
+        private void TxtNif_Leave(object sender, System.EventArgs e)
+        {
+            throw new System.NotImplementedException();
+        }
 
-		private System.Windows.Forms.Label lblTitulo;
+        #endregion
+
+        private System.Windows.Forms.Label lblTitulo;
 		private System.Windows.Forms.Label lblNIF;
 		private System.Windows.Forms.Label lblContraseña;
-		private System.Windows.Forms.TextBox txtUsuario;
+		private System.Windows.Forms.TextBox txtNif;
 		private System.Windows.Forms.TextBox txtContraseña;
 		private System.Windows.Forms.Button btnAceptar;
 		private System.Windows.Forms.Button btnVaciar;

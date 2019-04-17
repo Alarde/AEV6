@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Windows.Input;
 using MySql.Data.MySqlClient;
 
 namespace AEV6
@@ -19,35 +20,43 @@ namespace AEV6
         public Login()
         {
             InitializeComponent();
+			
         }
 
         private void Login_Load(object sender, EventArgs e)
         {
-            //Alarde - bdatos.AbrirConexion();
-            //if (bdatos.AbrirConexion()) MessageBox.Show("Se ha abierto el login");
-            //else MessageBox.Show("No se ha abierto el login");
+			//Alarde - bdatos.AbrirConexion();
+			//if (bdatos.AbrirConexion()) MessageBox.Show("Se ha abierto el login");
+			//else MessageBox.Show("No se ha abierto el login");
 
+			this.ActiveControl = btnAceptar;
         }
         private bool ValidarDatos()
 		{
 			bool correcto = true;
 
-			if(txtUsuario.Text == "" && txtContraseña.Text == "") //Si los dos campos estan vacios te informa
+			if(txtNif.Text == "" && txtContraseña.Text == "") //Si los dos campos estan vacios te informa
 			{
 				correcto = false;
 				MessageBox.Show("El campo \"Usuario\" y \"Contraseña\" no pueden estar vacíos.");
 			}
 			else
 			{
-				if(txtUsuario.Text == "" && txtContraseña.Text != "") //Si solo esta vacio el campo usuario te informa
+				if(txtNif.Text == "" && txtContraseña.Text != "") //Si solo esta vacio el campo usuario te informa
 				{
 					correcto = false;
 					MessageBox.Show("El campo \"Usuario\" no puede estar vacío.");
+
 				}
-				if(txtContraseña.Text == "" && txtUsuario.Text != "") //Si solo esta vacio el campo pass te informa
+				if(txtContraseña.Text == "" && txtNif.Text != "") //Si solo esta vacio el campo pass te informa
 				{
 					correcto = false;
 					MessageBox.Show("El campo \"Contraseña\" no puede estar vacío.");
+				}
+				if(txtNif.Text != "" && txtContraseña.Text != "" && Empleado.ValidarNIF(txtNif.Text) == false)
+				{ //Si ninguno de los dos campos están vacios, pero el nif está mal, te informa
+					correcto = false;
+					MessageBox.Show("El NIF introducido es erróneo.");
 				}
 			}
 			return correcto;
@@ -62,7 +71,7 @@ namespace AEV6
                     string query = string.Format("SELECT nif, clave FROM empleados WHERE nif=@nif AND " +
                                 "clave=@clave");
                     var cmd = new MySqlCommand(query, dbCon.Connection);
-                    cmd.Parameters.AddWithValue("@nif", txtUsuario.Text);
+                    cmd.Parameters.AddWithValue("@nif", txtNif.Text);
                     cmd.Parameters.AddWithValue("@clave", txtContraseña.Text);
                     var reader = cmd.ExecuteReader();
                     if (reader.HasRows) //Si hay una fila escondes este form y entras al de mantenimiento
@@ -71,6 +80,10 @@ namespace AEV6
                         Mantenimiento mantenimiento = new Mantenimiento();
                         mantenimiento.Show();
                     }
+					else
+					{
+						MessageBox.Show("La contraseña introducida es incorrecta.");
+					}
                     reader.Close();
                 }
             }
@@ -78,7 +91,7 @@ namespace AEV6
 
 		private void btnVaciar_Click(object sender, EventArgs e)
 		{
-			txtUsuario.Text = "";
+			txtNif.Text = "";
 			txtContraseña.Text = "";
 		}
 
@@ -99,6 +112,22 @@ namespace AEV6
         private void Panel1_Paint(object sender, PaintEventArgs e)
         {
 
+        }
+
+        private void txtNif_Leave_1(object sender, EventArgs e)
+        {
+            if (ValidarDatos())
+            {
+                ActiveControl = btnAceptar;
+            }
+        }
+
+        private void txtContraseña_Leave(object sender, EventArgs e)
+        {
+            if (ValidarDatos())
+            {
+                ActiveControl = btnAceptar;
+            }
         }
     }
 }
