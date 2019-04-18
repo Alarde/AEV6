@@ -15,13 +15,12 @@ namespace AEV6
     {
         //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
         //Alarde - MySqlConnection conexion = new MySqlConnection();
-		List<Empleado> empleados = new List<Empleados>();
+		List<Empleado> empleados = new List<Empleado>();
         public Mantenimiento()
         {
             InitializeComponent();
 			//Connecting datagrid with the employees
 			dgvMantenimiento.DataSource = empleados;
-			
         }
 
 		private void Mantenimiento_Load(object sender, EventArgs e) //Timer para mostrar la hora
@@ -86,50 +85,60 @@ namespace AEV6
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-			try
+            DataAccess db = new DataAccess();
+            Empleado emp = new Empleado();
+            if (ValidarDatos())
 			{
-				//if(bdatos.AbrirConexion())
-				//{
-					if (ValidarDatos())
-					{
-						if(chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
-						{
-							Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, txtClave.Text);
-                        //Alarde - Empleado.AgregarEmpleado(conexion, emp);
-                    }
-                    else //Si no, usamos el constructor de un empleado normal
-						{
-							Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked);
-                        //Alarde - Empleado.AgregarEmpleado(conexion, emp);
-                    }
+				if(chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
+				{
+                    emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, txtClave.Text);
                 }
-					else MessageBox.Show("Hay datos vacíos o incorrectos.");
-				//}
-				//else
-				//{
-					//MessageBox.Show("No se ha podido establecer la conexión con la base de datos, por favor inténtelo de nuevo más tarde.");
-				//}
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
-			}
-			//finally
-			//{
-				//bdatos.CerrarConexion();
-			//}
+                else //Si no, usamos el constructor de un empleado normal
+				{
+					emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, "");
+                }
+            }else MessageBox.Show("Hay datos vacíos o incorrectos.");
+            if (chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
+            {
+                var confirmResult = MessageBox.Show("Se va a añadir un nuevo administrador, estás seguro de continuar?", "Confirmación", MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    db.InsertarEmpleado(emp);
+                    MessageBox.Show($"Usuario '{ txtNif.Text }' añadido correctamente.");
+                }
+            }else
+            {
+                db.InsertarEmpleado(emp);
+                MessageBox.Show($"Usuario '{ txtNif.Text }' añadido correctamente.");
+            }
+            txtNif.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            chkAdmin.Checked = false;
+            txtClave.Text = "";
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-			try
-			{
-
-			}
-			catch (Exception ex)
-			{
-				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
-			}
+            DataAccess db = new DataAccess();
+            if (txtNif.Text == "")
+            {
+                errorMantenimiento.SetError(txtNif, "El campo NIF no puede estar vacío para eliminar a un empleado.");
+            }
+            else
+            {
+                var confirmResult = MessageBox.Show($"Estás seguro que quieres borrar al empleado '{ txtNif.Text }'", "Confirmación", MessageBoxButtons.YesNo);
+                if (confirmResult == DialogResult.Yes)
+                {
+                    empleados = db.eliminaEmpleado(txtNif.Text);
+                    txtNif.Text = "";
+                }
+                else
+                {
+                    txtNif.Text = "";
+                }
+            }
+            
         }
 
         private void btnInformes_Click(object sender, EventArgs e)
@@ -141,6 +150,7 @@ namespace AEV6
         {
             //Alarde - bdatos.CerrarConexion();
             this.Dispose();
+            Application.Exit();
         }
 
         private void lblAdmin_Click(object sender, EventArgs e)
@@ -153,8 +163,9 @@ namespace AEV6
 			/*Lets call our database*/
 			DataAccess db = new DataAccess();
 			
-			empleados = db.GetPeople(textBox1.Text);
-			dgvMantenimiento.DataSource = empleados;
+			empleados = db.GetEmployee(txtbuscar.Text);
+            dgvMantenimiento.DataSource = empleados;
+            dgvMantenimiento.Refresh();
 		}
 
 		private void chkAdmin_CheckedChanged(object sender, EventArgs e)
@@ -165,7 +176,11 @@ namespace AEV6
 
 		private void btnActualizar_Click(object sender, EventArgs e) //Actualiza de nuevo el datagrid mostrandote todos los empleados dados de alta
 		{
-			CargarListaEmpleados();
-		}
-	}
+            DataAccess db = new DataAccess();
+
+            empleados = db.GetEmployees();
+            dgvMantenimiento.DataSource = empleados;
+            dgvMantenimiento.Refresh();
+        } 
+    }
 }

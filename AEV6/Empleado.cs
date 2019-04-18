@@ -28,9 +28,6 @@ namespace AEV6
 			admin = admi;
 			clave = clav;
 		}
-/*
-
-This should have a by-default admin to False instead of having another constructor without admin key.
 
 		public Empleado(string dni, string nom, string ape, bool admi) //Constructor por si el empleado no es admin
 		{
@@ -39,7 +36,7 @@ This should have a by-default admin to False instead of having another construct
 			apellido = ape;
 			admin = admi;
 		}
-*/
+
 		public Empleado()
         { 
         }
@@ -145,6 +142,7 @@ This should have a by-default admin to False instead of having another construct
             retorno = comando.ExecuteNonQuery();
             return retorno;
         }
+
 
         public static List<Empleado> BuscarEmpleados(MySqlConnection conexion) //Metodo para el informe visual de mantenimiento
         {

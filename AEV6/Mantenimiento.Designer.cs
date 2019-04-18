@@ -128,12 +128,6 @@
             this.dgvMantenimiento.AutoSizeColumnsMode = System.Windows.Forms.DataGridViewAutoSizeColumnsMode.Fill;
             this.dgvMantenimiento.BorderStyle = System.Windows.Forms.BorderStyle.Fixed3D;
             this.dgvMantenimiento.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize;
-            this.dgvMantenimiento.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
-            this.columnanif,
-            this.nombre,
-            this.apellido,
-            this.admin,
-            this.columnaClave});
             this.dgvMantenimiento.Location = new System.Drawing.Point(9, 53);
             this.dgvMantenimiento.Name = "dgvMantenimiento";
             this.dgvMantenimiento.ReadOnly = true;
@@ -328,33 +322,23 @@
             // 
             // columnanif
             // 
-            this.columnanif.HeaderText = "NIF";
             this.columnanif.Name = "columnanif";
-            this.columnanif.ReadOnly = true;
             // 
             // nombre
             // 
-            this.nombre.HeaderText = "Nombre";
             this.nombre.Name = "nombre";
-            this.nombre.ReadOnly = true;
             // 
             // apellido
             // 
-            this.apellido.HeaderText = "Apellido";
             this.apellido.Name = "apellido";
-            this.apellido.ReadOnly = true;
             // 
             // admin
             // 
-            this.admin.HeaderText = "Admin";
             this.admin.Name = "admin";
-            this.admin.ReadOnly = true;
             // 
             // columnaClave
             // 
-            this.columnaClave.HeaderText = "Clave";
             this.columnaClave.Name = "columnaClave";
-            this.columnaClave.ReadOnly = true;
             // 
             // Mantenimiento
             // 

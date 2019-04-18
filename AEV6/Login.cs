@@ -113,21 +113,21 @@ namespace AEV6
         {
 
         }
-
+        
         private void txtNif_Leave_1(object sender, EventArgs e)
         {
-            if (ValidarDatos())
+            /*if (ValidarDatos())
             {
                 ActiveControl = btnAceptar;
-            }
+            }*/
         }
 
         private void txtContraseña_Leave(object sender, EventArgs e)
         {
-            if (ValidarDatos())
+            /*if (ValidarDatos())
             {
                 ActiveControl = btnAceptar;
-            }
+            }*/
         }
     }
 }

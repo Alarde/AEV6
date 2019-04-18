@@ -33,8 +33,12 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Dapper, Version=1.60.0.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\Dapper.1.60.6\lib\net451\Dapper.dll</HintPath>
+    </Reference>
     <Reference Include="MySql.Data, Version=8.0.15.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL" />
     <Reference Include="System" />
+    <Reference Include="System.Configuration" />
     <Reference Include="System.Core" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
@@ -48,6 +52,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConexionBBDD.cs" />
+    <Compile Include="DataAccess.cs" />
     <Compile Include="Empleado.cs" />
     <Compile Include="Fichajes.cs" />
     <Compile Include="Form1.cs">
@@ -68,6 +73,12 @@
     <Compile Include="Mantenimiento.Designer.cs">
       <DependentUpon>Mantenimiento.cs</DependentUpon>
     </Compile>
+    <Compile Include="PantallaEspera.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="PantallaEspera.Designer.cs">
+      <DependentUpon>PantallaEspera.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="Form1.resx">
@@ -79,11 +90,15 @@
     <EmbeddedResource Include="Mantenimiento.resx">
       <DependentUpon>Mantenimiento.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="PantallaEspera.resx">
+      <DependentUpon>PantallaEspera.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <SubType>Designer</SubType>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
