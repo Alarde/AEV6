@@ -154,6 +154,7 @@ namespace AEV6
 			DataAccess db = new DataAccess();
 			
 			empleados = db.GetPeople(textBox1.Text);
+			dgvMantenimiento.DataSource = empleados;
 		}
 
 		private void chkAdmin_CheckedChanged(object sender, EventArgs e)
