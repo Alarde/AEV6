@@ -15,10 +15,13 @@ namespace AEV6
     {
         //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
         //Alarde - MySqlConnection conexion = new MySqlConnection();
-
+		List<Empleado> empleados = new List<Empleados>();
         public Mantenimiento()
         {
             InitializeComponent();
+			//Connecting datagrid with the employees
+			dgvMantenimiento.DataSource = empleados;
+			
         }
 
 		private void Mantenimiento_Load(object sender, EventArgs e) //Timer para mostrar la hora
@@ -51,37 +54,28 @@ namespace AEV6
 		{
 			bool correcto = true;
 
-            if (txtNif.Text == "9")
-            {
-                errorMantenimiento.SetError(txtNif, "Campo \"NIF\" vacío");
-                correcto = false;
-            }
-            else if (correcto) errorMantenimiento.Clear();
-          
-            if(Empleado.ValidarNIF(txtNif.Text) == false)
-            {
-                errorMantenimiento.SetError(txtNif, "NIF incorrecto");
-                correcto = false;
-
-            }
-            else if (correcto) errorMantenimiento.Clear();
-
-            if (txtNombre.Text == "")
-            {
-                errorMantenimiento.SetError(txtNombre, "Campo \"Nombre\" vacío");
-                correcto = false;
-            }
-            else if (correcto) errorMantenimiento.Clear();
-
-            if (txtApellido.Text == "")
-            {
-                errorMantenimiento.SetError(txtApellido, "Campo \"Apellido\" vacío");
-                correcto = false;
-            }
-            else if (correcto) errorMantenimiento.Clear();
-
-            return correcto;
-        }
+			if (txtNif.Text == "")
+			{
+				correcto = false;
+				errorMantenimiento.SetError(txtNif, "El campo NIF no puede estar vacío.");
+			}
+			if (Empleado.ValidarNIF(txtNif.Text) == false)
+			{
+				correcto = false;
+				errorMantenimiento.SetError(txtNif, "El formato del NIF que está intentando introducir es erróneo.");
+			}
+			if(txtNombre.Text == "")
+			{
+				correcto = false;
+				errorMantenimiento.SetError(txtNombre, "El campo NOMBRE no puede estar vacío.");
+			}
+			if (txtApellido.Text == "")
+			{
+				correcto = false;
+				errorMantenimiento.SetError(txtApellido, "El campo APELLIDO no puede estar vacío.");
+			}
+			return correcto;
+		}
 		
         private void btnSalir_Click(object sender, EventArgs e)
         {
@@ -92,27 +86,50 @@ namespace AEV6
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            if (ValidarDatos())
-            {
-                if (chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
-                {
-                    Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, txtClave.Text);
-                    //Alarde - Empleado.AgregarEmpleado(conexion, emp);
+			try
+			{
+				//if(bdatos.AbrirConexion())
+				//{
+					if (ValidarDatos())
+					{
+						if(chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
+						{
+							Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, txtClave.Text);
+                        //Alarde - Empleado.AgregarEmpleado(conexion, emp);
+                    }
+                    else //Si no, usamos el constructor de un empleado normal
+						{
+							Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked);
+                        //Alarde - Empleado.AgregarEmpleado(conexion, emp);
+                    }
                 }
-                else //Si no, usamos el constructor de un empleado normal
-                {
-                    Empleado emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked);
-                    //Alarde - Empleado.AgregarEmpleado(conexion, emp);
-                }
-            }
-            else MessageBox.Show("Hay datos vacíos o incorrectos.");
-
-
+					else MessageBox.Show("Hay datos vacíos o incorrectos.");
+				//}
+				//else
+				//{
+					//MessageBox.Show("No se ha podido establecer la conexión con la base de datos, por favor inténtelo de nuevo más tarde.");
+				//}
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+			}
+			//finally
+			//{
+				//bdatos.CerrarConexion();
+			//}
         }
+
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            //if()
-            
+			try
+			{
+
+			}
+			catch (Exception ex)
+			{
+				MessageBox.Show(ex.Message + "\n" + ex.StackTrace);
+			}
         }
 
         private void btnInformes_Click(object sender, EventArgs e)
@@ -133,13 +150,10 @@ namespace AEV6
 
 		private void btnBuscar_Click(object sender, EventArgs e)
 		{
-            if(txtbuscar.Text != "")
-            {
-                if (Empleado.BuscarNif().Count > 0)
-                {
-                    dgvMantenimiento.DataSource = Empleado.BuscarNif();
-                }
-            }
+			/*Lets call our database*/
+			DataAccess db = new DataAccess();
+			
+			empleados = db.GetPeople(textBox1.Text);
 		}
 
 		private void chkAdmin_CheckedChanged(object sender, EventArgs e)
