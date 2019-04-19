@@ -16,7 +16,7 @@ namespace AEV6
     {
         //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
         //Alarde - MySqlConnection conexion = new MySqlConnection();
-
+        private static bool error = false;
         public Login()
         {
             InitializeComponent();
@@ -62,9 +62,10 @@ namespace AEV6
 			return correcto;
 		}
 
-        private void btnAceptar_Click(object sender, EventArgs e)
+        public void logea()
         {
-            if (ValidarDatos()){ //Si no hay ningun campo vacio
+            if (ValidarDatos())
+            { //Si no hay ningun campo vacio
                 var dbCon = DBConnection.Instance();
                 if (dbCon.IsConnect())
                 {
@@ -74,19 +75,40 @@ namespace AEV6
                     cmd.Parameters.AddWithValue("@nif", txtNif.Text);
                     cmd.Parameters.AddWithValue("@clave", txtContraseña.Text);
                     var reader = cmd.ExecuteReader();
-                    if (reader.HasRows) //Si hay una fila escondes este form y entras al de mantenimiento
+                    if (!reader.HasRows) //Si no hay una fila escondes este form y entras al de mantenimiento
                     {
-                        this.Hide();
-                        Mantenimiento mantenimiento = new Mantenimiento();
-                        mantenimiento.Show();
+                        error = true;
                     }
-					else
-					{
-						MessageBox.Show("La contraseña introducida es incorrecta.");
-					}
+                    
                     reader.Close();
                 }
+            }else
+            {
+                error = true;
             }
+            // Si en vez de complicarnos con una pantalla, lo que hacemos es cambiar el cursor a un WaitCursor sería suficiente
+            //this.Login_Load.Cursor = System.Windows.Forms.Cursors.WaitCursor;
+        }
+
+        private void btnAceptar_Click(object sender, EventArgs e)
+        {
+            using (var dEspera = new PantallaEspera(logea, "Revisando información de BBDD..."))
+            {
+                dEspera.ShowDialog(this);
+            }
+            if(!error)
+            {
+                txtNif.Text = "";
+                txtContraseña.Text = "";
+                Mantenimiento mantenimiento = new Mantenimiento();
+                mantenimiento.Show();
+            }
+            else
+            {
+                MessageBox.Show("La contraseña introducida es incorrecta.");
+                error = false;
+            }
+            
         }
 
 		private void btnVaciar_Click(object sender, EventArgs e)

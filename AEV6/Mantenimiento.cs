@@ -132,10 +132,18 @@ namespace AEV6
                 {
                     empleados = db.eliminaEmpleado(txtNif.Text);
                     txtNif.Text = "";
+                    txtNombre.Text = "";
+                    txtApellido.Text = "";
+                    chkAdmin.Checked = false;
+                    txtClave.Enabled = false;
                 }
                 else
                 {
                     txtNif.Text = "";
+                    txtNombre.Text = "";
+                    txtApellido.Text = "";
+                    chkAdmin.Checked = false;
+                    txtClave.Enabled = false;
                 }
             }
             
@@ -158,15 +166,22 @@ namespace AEV6
 
         }
 
+        public void buscarDni()
+        {
+            DataAccess db = new DataAccess();
+            empleados = db.GetEmployee(txtbuscar.Text);
+        }
+
 		private void btnBuscar_Click(object sender, EventArgs e)
 		{
-			/*Lets call our database*/
-			DataAccess db = new DataAccess();
-			
-			empleados = db.GetEmployee(txtbuscar.Text);
+            /*Lets call our database*/
+            using (var dEspera = new PantallaEspera(buscarDni, "Buscando por DNI..."))
+            {
+                dEspera.ShowDialog(this);
+            }
             dgvMantenimiento.DataSource = empleados;
             dgvMantenimiento.Refresh();
-		}
+        }
 
 		private void chkAdmin_CheckedChanged(object sender, EventArgs e)
 		{
@@ -174,13 +189,40 @@ namespace AEV6
 			else txtClave.Enabled = true;
 		}
 
+        private void devuelveTodosEmpleados()
+        {
+            DataAccess db = new DataAccess();
+            empleados = db.GetAllEmployees();
+        }
+
 		private void btnActualizar_Click(object sender, EventArgs e) //Actualiza de nuevo el datagrid mostrandote todos los empleados dados de alta
 		{
-            DataAccess db = new DataAccess();
-
-            empleados = db.GetEmployees();
+            using (var dEspera = new PantallaEspera(devuelveTodosEmpleados, "Devolviendo lista de empleados..."))
+            {
+                dEspera.ShowDialog(this);
+            }
             dgvMantenimiento.DataSource = empleados;
             dgvMantenimiento.Refresh();
-        } 
+            dgvMantenimiento.ClearSelection();
+        }
+
+        private void DgvMantenimiento_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        {
+            DataGridViewRow row = this.dgvMantenimiento.Rows[e.RowIndex];
+            
+            //txtNif.Text = dgvMantenimiento[e.ColumnIndex, e.RowIndex].Value.ToString();
+            txtNif.Text = row.Cells[0].Value.ToString();
+            txtNombre.Text = row.Cells[1].Value.ToString();
+            txtApellido.Text = row.Cells[2].Value.ToString();
+
+            if (Boolean.Parse(row.Cells[3].Value.ToString()))
+            {
+                chkAdmin.Checked = true;
+            }
+            else
+            {
+                chkAdmin.Checked = false;
+            }
+        }
     }
 }

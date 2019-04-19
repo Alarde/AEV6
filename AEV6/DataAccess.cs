@@ -45,7 +45,7 @@ namespace AEV6
             }
 		}
 
-        public List<Empleado> GetEmployees()
+        public List<Empleado> GetAllEmployees()
         {
             var dbCon = DBConnection.Instance();
             if (dbCon.IsConnect())

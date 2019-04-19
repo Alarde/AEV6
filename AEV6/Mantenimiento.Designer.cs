@@ -132,7 +132,6 @@
             this.dgvMantenimiento.Name = "dgvMantenimiento";
             this.dgvMantenimiento.ReadOnly = true;
             this.dgvMantenimiento.Size = new System.Drawing.Size(673, 196);
-            this.dgvMantenimiento.TabIndex = 6;
             // 
             // errorMantenimiento
             // 
