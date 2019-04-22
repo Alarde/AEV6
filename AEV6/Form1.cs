@@ -48,7 +48,7 @@ namespace AEV6
         private void btnMantenimiento_Click(object sender, EventArgs e)
         {
             this.Hide();
-			Login login = new Login();
+			mainLoginForm login = new mainLoginForm();
 			login.ShowDialog();
         }
 

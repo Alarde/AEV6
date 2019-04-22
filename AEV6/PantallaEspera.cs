@@ -10,13 +10,21 @@ using System.Windows.Forms;
 
 namespace AEV6
 {
-    public partial class PantallaEspera : Form
+    public partial class pantallaEsperaForm : Form
     {
         public Action Proceso { get; set; }
-        public PantallaEspera(Action proceso, string procesoDescripcion)
+        public pantallaEsperaForm(Action proceso, string procesoDescripcion)
         {
             InitializeComponent();
-            label1.Text = procesoDescripcion;
+            //label1.Text = procesoDescripcion;
+            Proceso = proceso;
+        }
+
+        public pantallaEsperaForm(Action proceso, string procesoDescripcion, int w, int h)
+        {
+            InitializeComponent();
+            pantallaEsperaForm.ActiveForm.Size = new Size(w,h);
+            //label1.Text = procesoDescripcion;
             Proceso = proceso;
         }
 

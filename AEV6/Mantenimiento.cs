@@ -11,16 +11,26 @@ using MySql.Data.MySqlClient;
 
 namespace AEV6
 {
-    public partial class Mantenimiento : Form
+    public partial class mantenimientoForm : Form
     {
         //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
         //Alarde - MySqlConnection conexion = new MySqlConnection();
 		List<Empleado> empleados = new List<Empleado>();
-        public Mantenimiento()
+        public mantenimientoForm()
         {
             InitializeComponent();
 			//Connecting datagrid with the employees
 			dgvMantenimiento.DataSource = empleados;
+        }
+
+        public void resetFields()
+        {
+            txtNif.Text = "";
+            txtNombre.Text = "";
+            txtApellido.Text = "";
+            chkAdmin.Checked = false;
+            txtClave.Text = "";
+            txtClave.Enabled = false;
         }
 
 		private void Mantenimiento_Load(object sender, EventArgs e) //Timer para mostrar la hora
@@ -111,11 +121,7 @@ namespace AEV6
                 db.InsertarEmpleado(emp);
                 MessageBox.Show($"Usuario '{ txtNif.Text }' añadido correctamente.");
             }
-            txtNif.Text = "";
-            txtNombre.Text = "";
-            txtApellido.Text = "";
-            chkAdmin.Checked = false;
-            txtClave.Text = "";
+            resetFields();
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -131,19 +137,11 @@ namespace AEV6
                 if (confirmResult == DialogResult.Yes)
                 {
                     empleados = db.eliminaEmpleado(txtNif.Text);
-                    txtNif.Text = "";
-                    txtNombre.Text = "";
-                    txtApellido.Text = "";
-                    chkAdmin.Checked = false;
-                    txtClave.Enabled = false;
+                    resetFields();
                 }
                 else
                 {
-                    txtNif.Text = "";
-                    txtNombre.Text = "";
-                    txtApellido.Text = "";
-                    chkAdmin.Checked = false;
-                    txtClave.Enabled = false;
+                    resetFields();
                 }
             }
             
@@ -175,7 +173,7 @@ namespace AEV6
 		private void btnBuscar_Click(object sender, EventArgs e)
 		{
             /*Lets call our database*/
-            using (var dEspera = new PantallaEspera(buscarDni, "Buscando por DNI..."))
+            using (var dEspera = new pantallaEsperaForm(buscarDni, "Buscando por DNI..."))
             {
                 dEspera.ShowDialog(this);
             }
@@ -197,7 +195,10 @@ namespace AEV6
 
 		private void btnActualizar_Click(object sender, EventArgs e) //Actualiza de nuevo el datagrid mostrandote todos los empleados dados de alta
 		{
-            using (var dEspera = new PantallaEspera(devuelveTodosEmpleados, "Devolviendo lista de empleados..."))
+            var widthForm = mantenimientoForm.ActiveForm.Width;
+            var height = mantenimientoForm.ActiveForm.Height;
+
+            using (var dEspera = new pantallaEsperaForm(devuelveTodosEmpleados, "Devolviendo lista de empleados...", widthForm, height))
             {
                 dEspera.ShowDialog(this);
             }

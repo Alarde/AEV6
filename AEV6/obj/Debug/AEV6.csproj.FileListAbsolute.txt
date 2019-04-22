@@ -61,8 +61,6 @@ C:\Users\Aldimir\Desktop\Programacion\C#\AEV6\AEV6\AEV6\obj\Debug\AEV6.pdb
 C:\Users\alarde01\Desktop\Programación\WindowsForm\AEV6\AEV6\obj\Debug\AEV6.Login.resources
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.csprojAssemblyReference.cache
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.Form1.resources
-F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.Login.resources
-F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.Mantenimiento.resources
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.Properties.Resources.resources
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.csproj.GenerateResource.cache
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.csproj.CoreCompileInputs.cache
@@ -76,4 +74,6 @@ F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\bin\Debug\MySql.Data.xml
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.csproj.CopyComplete
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\bin\Debug\Dapper.dll
 F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\bin\Debug\Dapper.xml
-F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.PantallaEspera.resources
+F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.mantenimientoForm.resources
+F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.pantallaEsperaForm.resources
+F:\GitHub\VisualStudioWorkSpace\AEV6\AEV6\obj\Debug\AEV6.mainLoginForm.resources

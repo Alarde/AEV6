@@ -12,12 +12,12 @@ using MySql.Data.MySqlClient;
 
 namespace AEV6
 {
-    public partial class Login : Form
+    public partial class mainLoginForm : Form
     {
         //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
         //Alarde - MySqlConnection conexion = new MySqlConnection();
         private static bool error = false;
-        public Login()
+        public mainLoginForm()
         {
             InitializeComponent();
 			
@@ -92,7 +92,10 @@ namespace AEV6
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            using (var dEspera = new PantallaEspera(logea, "Revisando información de BBDD..."))
+            var widthForm = mainLoginForm.ActiveForm.Width;
+            var height = mainLoginForm.ActiveForm.Height;
+
+            using (var dEspera = new pantallaEsperaForm(logea, "Revisando información de BBDD..."))
             {
                 dEspera.ShowDialog(this);
             }
@@ -100,7 +103,7 @@ namespace AEV6
             {
                 txtNif.Text = "";
                 txtContraseña.Text = "";
-                Mantenimiento mantenimiento = new Mantenimiento();
+                mantenimientoForm mantenimiento = new mantenimientoForm();
                 mantenimiento.Show();
             }
             else

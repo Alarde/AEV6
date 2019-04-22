@@ -1,6 +1,6 @@
 ﻿namespace AEV6
 {
-    partial class Login
+    partial class mainLoginForm
     {
         /// <summary>
         /// Required designer variable.
@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Login));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mainLoginForm));
             this.lblTitulo = new System.Windows.Forms.Label();
             this.lblNIF = new System.Windows.Forms.Label();
             this.lblContraseña = new System.Windows.Forms.Label();
@@ -175,7 +175,7 @@
             this.panelIzquierda.Dock = System.Windows.Forms.DockStyle.Left;
             this.panelIzquierda.Location = new System.Drawing.Point(0, 0);
             this.panelIzquierda.Name = "panelIzquierda";
-            this.panelIzquierda.Size = new System.Drawing.Size(367, 295);
+            this.panelIzquierda.Size = new System.Drawing.Size(360, 295);
             this.panelIzquierda.TabIndex = 9;
             // 
             // pictureBox13
@@ -349,7 +349,7 @@
             this.pictureBox1.TabIndex = 13;
             this.pictureBox1.TabStop = false;
             // 
-            // Login
+            // mainLoginForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -358,7 +358,7 @@
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.panelIzquierda);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
-            this.Name = "Login";
+            this.Name = "mainLoginForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Login";
             this.Load += new System.EventHandler(this.Login_Load);

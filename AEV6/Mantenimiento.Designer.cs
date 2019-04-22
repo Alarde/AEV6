@@ -1,6 +1,6 @@
 ﻿namespace AEV6
 {
-    partial class Mantenimiento
+    partial class mantenimientoForm
     {
         /// <summary>
         /// Required designer variable.
@@ -29,7 +29,7 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Mantenimiento));
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(mantenimientoForm));
             this.btnSalir = new System.Windows.Forms.Button();
             this.btnAgregar = new System.Windows.Forms.Button();
             this.btnEliminar = new System.Windows.Forms.Button();
@@ -132,6 +132,7 @@
             this.dgvMantenimiento.Name = "dgvMantenimiento";
             this.dgvMantenimiento.ReadOnly = true;
             this.dgvMantenimiento.Size = new System.Drawing.Size(673, 196);
+            this.dgvMantenimiento.TabIndex = 11;
             // 
             // errorMantenimiento
             // 
@@ -339,7 +340,7 @@
             // 
             this.columnaClave.Name = "columnaClave";
             // 
-            // Mantenimiento
+            // mantenimientoForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
@@ -361,7 +362,7 @@
             this.Controls.Add(this.btnEliminar);
             this.Controls.Add(this.btnAgregar);
             this.Controls.Add(this.btnSalir);
-            this.Name = "Mantenimiento";
+            this.Name = "mantenimientoForm";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "Mantenimiento";
             this.Load += new System.EventHandler(this.Mantenimiento_Load);
