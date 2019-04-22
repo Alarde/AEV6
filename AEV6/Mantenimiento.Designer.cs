@@ -133,6 +133,7 @@
             this.dgvMantenimiento.ReadOnly = true;
             this.dgvMantenimiento.Size = new System.Drawing.Size(673, 196);
             this.dgvMantenimiento.TabIndex = 11;
+            this.dgvMantenimiento.CellContentClick += new System.Windows.Forms.DataGridViewCellEventHandler(this.DgvMantenimiento_CellContentClick_1);
             // 
             // errorMantenimiento
             // 

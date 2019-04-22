@@ -35,7 +35,8 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.ImageLocation = "C:\\Users\\argue\\Desktop\\loading_gif.gif";
+            this.pictureBox1.ErrorImage = null;
+            this.pictureBox1.ImageLocation = "F:\\GitHub\\VisualStudioWorkSpace\\AEV6\\Images\\loading_gif.gif";
             this.pictureBox1.InitialImage = ((System.Drawing.Image)(resources.GetObject("pictureBox1.InitialImage")));
             this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";

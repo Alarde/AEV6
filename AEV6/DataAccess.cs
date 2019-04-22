@@ -2,10 +2,7 @@
 using System.Collections.Generic;
 using System.Data;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using Dapper;
-using MySql.Data.MySqlClient;
 
 
 /****
@@ -62,20 +59,15 @@ namespace AEV6
             }
         }
 
-        public List<Empleado> eliminaEmpleado(string nif)
+        public void eliminaEmpleado(string nif)
         {
             var dbCon = DBConnection.Instance();
             if (dbCon.IsConnect())
             {
                 using (IDbConnection connection = dbCon.Connection)
                 {
-                    var output = connection.Query<Empleado>($"delete from empleados where empleados.nif = '{ nif }'").ToList();
-                    return output;
+                    var output = connection.Execute($"delete from empleados where empleados.nif = '{ nif }'");
                 }
-            }
-            else
-            {
-                return null;
             }
         }
 		

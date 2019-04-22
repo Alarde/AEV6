@@ -107,21 +107,14 @@ namespace AEV6
 				{
 					emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, "");
                 }
-            }else MessageBox.Show("Hay datos vacíos o incorrectos.");
-            if (chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
-            {
                 var confirmResult = MessageBox.Show("Se va a añadir un nuevo administrador, estás seguro de continuar?", "Confirmación", MessageBoxButtons.YesNo);
                 if (confirmResult == DialogResult.Yes)
                 {
                     db.InsertarEmpleado(emp);
                     MessageBox.Show($"Usuario '{ txtNif.Text }' añadido correctamente.");
                 }
-            }else
-            {
-                db.InsertarEmpleado(emp);
-                MessageBox.Show($"Usuario '{ txtNif.Text }' añadido correctamente.");
             }
-            resetFields();
+            else MessageBox.Show("Hay datos vacíos o incorrectos.");
         }
 
         private void btnEliminar_Click(object sender, EventArgs e)
@@ -136,7 +129,7 @@ namespace AEV6
                 var confirmResult = MessageBox.Show($"Estás seguro que quieres borrar al empleado '{ txtNif.Text }'", "Confirmación", MessageBoxButtons.YesNo);
                 if (confirmResult == DialogResult.Yes)
                 {
-                    empleados = db.eliminaEmpleado(txtNif.Text);
+                    db.eliminaEmpleado(txtNif.Text);
                     resetFields();
                 }
                 else
@@ -198,7 +191,7 @@ namespace AEV6
             var widthForm = mantenimientoForm.ActiveForm.Width;
             var height = mantenimientoForm.ActiveForm.Height;
 
-            using (var dEspera = new pantallaEsperaForm(devuelveTodosEmpleados, "Devolviendo lista de empleados...", widthForm, height))
+            using (var dEspera = new pantallaEsperaForm(devuelveTodosEmpleados, "Devolviendo lista de empleados..."))
             {
                 dEspera.ShowDialog(this);
             }
@@ -207,10 +200,10 @@ namespace AEV6
             dgvMantenimiento.ClearSelection();
         }
 
-        private void DgvMantenimiento_CellContentClick(object sender, DataGridViewCellEventArgs e)
+        private void DgvMantenimiento_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
         {
             DataGridViewRow row = this.dgvMantenimiento.Rows[e.RowIndex];
-            
+
             //txtNif.Text = dgvMantenimiento[e.ColumnIndex, e.RowIndex].Value.ToString();
             txtNif.Text = row.Cells[0].Value.ToString();
             txtNombre.Text = row.Cells[1].Value.ToString();

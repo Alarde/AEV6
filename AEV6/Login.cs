@@ -92,9 +92,6 @@ namespace AEV6
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            var widthForm = mainLoginForm.ActiveForm.Width;
-            var height = mainLoginForm.ActiveForm.Height;
-
             using (var dEspera = new pantallaEsperaForm(logea, "Revisando información de BBDD..."))
             {
                 dEspera.ShowDialog(this);
