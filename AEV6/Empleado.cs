@@ -15,11 +15,6 @@ namespace AEV6
 		public bool admin { get; set; }
 		public string clave { get; set; }
 
-
-
-
-
-
 		public Empleado(string dni, string nom, string ape, bool admi, string clav) //Constructor por si el empleado es admin
 		{
 			nif = dni;
@@ -87,79 +82,5 @@ namespace AEV6
 			}
 			return correcto;
 		}
-
-        //Funcion que usaremos para corroborar que el empleado está dado de alta
-        public static bool ExisteEmpleado(MySqlConnection conexion, string nif)
-        {
-            string consulta = string.Format("SELECT * FROM empleados WHERE nif = {0}", nif);
-            MySqlCommand comando = new MySqlCommand(consulta, conexion);
-			MySqlDataReader reader = comando.ExecuteReader();
-
-            if (reader.HasRows) return true; //Comprobamos que el usuario existe
-            else return false;
-        }
-        
-        public int Entrada(MySqlConnection conexion, string nif)
-        {
-			int retorno;
-            string consulta = string.Format("UPDATE fichajes SET fichadoEntrada = 1 WHERE nif = {0};", nif);
-            MySqlCommand comando = new MySqlCommand(nif, conexion);
-            retorno = comando.ExecuteNonQuery();
-
-			return retorno;
-		}
-
-        /*
-		public int Salida(MySqlConnection conexion, string nif)
-		{
-			int retorno;
-            string consulta = string.Format("UPDATE fichajes");
-		}
-		*/
-		//Boton de agregar para el mantenimineto
-
-		public static int AgregarEmpleado(MySqlConnection conexion, Empleado emp)
-		{
-            int retorno;
-			string consulta = string.Format("INSERT INTO empleados (nif, nombre, apellido, admin, clave) VALUES(@nif, @nombre, @apellido, @admin, @clave)");
-			MySqlCommand comando = new MySqlCommand(consulta, conexion);
-			comando.Parameters.AddWithValue("@nif", emp.nif);
-			comando.Parameters.AddWithValue("@nombre", emp.nombre.Trim());
-			comando.Parameters.AddWithValue("@apellido", emp.apellido.Trim());
-			comando.Parameters.AddWithValue("@admin", emp.admin);
-			comando.Parameters.AddWithValue("@clave", emp.clave); //Y si el empleado agregado no es admin? Hay que poner un valor por defecto si el campo está vacío. ¿Se puede 
-            //poner un valor null por defecto en la base de datos por si el empleado no es admin?
-            retorno = comando.ExecuteNonQuery();
-            return retorno;
-		}
-
-        public static int EliminarEmpleado(MySqlConnection conexion, Empleado emp)
-        {
-            int retorno;
-            string consulta = string.Format("DELETE FROM empleados WHERE nif={0} AND nombre={1} AND apellidos={2}", emp.nif, emp.nombre,
-                emp.apellido);
-            MySqlCommand comando = new MySqlCommand(consulta, conexion);
-            retorno = comando.ExecuteNonQuery();
-            return retorno;
-        }
-
-
-        public static List<Empleado> BuscarEmpleados(MySqlConnection conexion) //Metodo para el informe visual de mantenimiento
-        {
-			List<Empleado> empleados = new List<Empleado>();
-
-            string consulta = string.Format("SELECT nif, nombre, apellido, admin FROM empleados");
-            MySqlCommand comando = new MySqlCommand(consulta, conexion);
-            MySqlDataReader reader = comando.ExecuteReader();
-			if(reader.HasRows)
-            {
-                while (reader.Read())
-                {
-					Empleado emp = new Empleado(reader.GetString(0), reader.GetString(1), reader.GetString(2), reader.GetBoolean(3));
-					empleados.Add(emp);
-                }
-            }
-			return empleados;
-        }
     }
 }

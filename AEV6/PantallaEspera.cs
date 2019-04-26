@@ -7,10 +7,10 @@ namespace AEV6
     public partial class pantallaEsperaForm : Form
     {
         public Action Proceso { get; set; }
-        public pantallaEsperaForm(Action proceso, string procesoDescripcion)
+
+        public pantallaEsperaForm(Action proceso)
         {
             InitializeComponent();
-            //label1.Text = procesoDescripcion;
             Proceso = proceso;
         }
 
@@ -19,5 +19,10 @@ namespace AEV6
             base.OnLoad(e);
             Task.Factory.StartNew(Proceso).ContinueWith(t => { this.Close(); }, TaskScheduler.FromCurrentSynchronizationContext());
         }
-    }
+
+		private void PictureBox1_Click(object sender, EventArgs e)
+		{
+
+		}
+	}
 }

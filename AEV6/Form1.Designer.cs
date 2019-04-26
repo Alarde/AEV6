@@ -98,13 +98,13 @@
             this.btnPresencia.FlatStyle = System.Windows.Forms.FlatStyle.Flat;
             this.btnPresencia.Font = new System.Drawing.Font("Century Gothic", 18F);
             this.btnPresencia.ForeColor = System.Drawing.Color.White;
-            this.btnPresencia.Location = new System.Drawing.Point(18, 156);
+            this.btnPresencia.Location = new System.Drawing.Point(18, 155);
             this.btnPresencia.Name = "btnPresencia";
             this.btnPresencia.Size = new System.Drawing.Size(227, 38);
             this.btnPresencia.TabIndex = 2;
             this.btnPresencia.Text = "Presencia";
             this.btnPresencia.UseVisualStyleBackColor = false;
-            this.btnPresencia.Click += new System.EventHandler(this.btnPresencia_Click);
+            this.btnPresencia.Click += new System.EventHandler(this.BtnPresencia_Click);
             // 
             // btnPermanencia
             // 
@@ -328,7 +328,7 @@
         private System.Windows.Forms.Panel panelIzquierda;
         private System.Windows.Forms.PictureBox picLogo;
         private System.Windows.Forms.Label lblTitulo;
-        private System.Windows.Forms.TextBox txtnif;
+        public System.Windows.Forms.TextBox txtnif;
         private System.Windows.Forms.PictureBox pictureBox1;
         private System.Windows.Forms.PictureBox pictureBox2;
         private System.Windows.Forms.PictureBox pictureBox3;

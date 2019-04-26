@@ -14,9 +14,8 @@ namespace AEV6
 {
     public partial class mainLoginForm : Form
     {
-        //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
-        //Alarde - MySqlConnection conexion = new MySqlConnection();
         private static bool error = false;
+
         public mainLoginForm()
         {
             InitializeComponent();
@@ -25,12 +24,9 @@ namespace AEV6
 
         private void Login_Load(object sender, EventArgs e)
         {
-			//Alarde - bdatos.AbrirConexion();
-			//if (bdatos.AbrirConexion()) MessageBox.Show("Se ha abierto el login");
-			//else MessageBox.Show("No se ha abierto el login");
-
-			this.ActiveControl = btnAceptar;
+			ActiveControl = txtNif;
         }
+
         private bool ValidarDatos()
 		{
 			bool correcto = true;
@@ -62,24 +58,23 @@ namespace AEV6
 			return correcto;
 		}
 
-        public void logea()
+        public void Login()
         {
             if (ValidarDatos())
             { //Si no hay ningun campo vacio
-                var dbCon = DBConnection.Instance();
-                if (dbCon.IsConnect())
+                var dbCon = DBConnection.Instancia();
+                if (dbCon.Conectado())
                 {
-                    string query = string.Format("SELECT nif, clave FROM empleados WHERE nif=@nif AND " +
-                                "clave=@clave");
-                    var cmd = new MySqlCommand(query, dbCon.Connection);
+                    string query = string.Format("SELECT nif, clave FROM empleados WHERE nif=@nif AND clave=@clave");
+                    var cmd = new MySqlCommand(query, dbCon.Conexion);
                     cmd.Parameters.AddWithValue("@nif", txtNif.Text);
                     cmd.Parameters.AddWithValue("@clave", txtContraseña.Text);
                     var reader = cmd.ExecuteReader();
+
                     if (!reader.HasRows) //Si no hay una fila escondes este form y entras al de mantenimiento
                     {
                         error = true;
                     }
-                    
                     reader.Close();
                 }
             }else
@@ -92,7 +87,7 @@ namespace AEV6
 
         private void btnAceptar_Click(object sender, EventArgs e)
         {
-            using (var dEspera = new pantallaEsperaForm(logea, "Revisando información de BBDD..."))
+            using (var dEspera = new pantallaEsperaForm(Login))
             {
                 dEspera.ShowDialog(this);
             }
@@ -125,8 +120,7 @@ namespace AEV6
 
         private void lblVolver_Click(object sender, EventArgs e)
         {
-            //Alarde - bdatos.CerrarConexion();
-            this.Hide();
+            Hide();
             Form1 form = new Form1();
             form.Show();
         }
@@ -135,21 +129,18 @@ namespace AEV6
         {
 
         }
-        
-        private void txtNif_Leave_1(object sender, EventArgs e)
-        {
-            /*if (ValidarDatos())
-            {
-                ActiveControl = btnAceptar;
-            }*/
-        }
 
-        private void txtContraseña_Leave(object sender, EventArgs e)
-        {
-            /*if (ValidarDatos())
-            {
-                ActiveControl = btnAceptar;
-            }*/
-        }
-    }
+		private void TxtContraseña_Enter(object sender, EventArgs e)
+		{
+			
+		}
+
+		private void CheckEnter(object sender, KeyPressEventArgs e) //Al darle al enter, hace click automaticamente al boton aceptar
+		{
+			if (e.KeyChar == (char)13)
+			{ 
+				btnAceptar.PerformClick();
+			}
+		}
+	}
 }

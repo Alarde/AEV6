@@ -13,17 +13,17 @@ namespace AEV6
 {
     public partial class mantenimientoForm : Form
     {
-        //Alarde - ConexionBBDD bdatos = new ConexionBBDD();
-        //Alarde - MySqlConnection conexion = new MySqlConnection();
 		List<Empleado> empleados = new List<Empleado>();
-        public mantenimientoForm()
+		List<Fichajes> fichajes = new List<Fichajes>();
+
+		public TextBox TextBoxNif { get; }
+
+		public mantenimientoForm()
         {
             InitializeComponent();
-			//Connecting datagrid with the employees
-			dgvMantenimiento.DataSource = empleados;
         }
 
-        public void resetFields()
+        public void VaciarCampos()
         {
             txtNif.Text = "";
             txtNombre.Text = "";
@@ -35,13 +35,19 @@ namespace AEV6
 
 		private void Mantenimiento_Load(object sender, EventArgs e) //Timer para mostrar la hora
 		{
-            //Alarde - bdatos.AbrirConexion();
             timer1.Start();
 			lblDate.Text = DateTime.Now.ToShortDateString();
 			lblTimer.Text = DateTime.Now.ToLongTimeString();
 			txtClave.Enabled = false;
-			CargarListaEmpleados();
-		}
+
+			using (var dEspera = new pantallaEsperaForm(DevolverEmpleados)) //No da tiempo para su uso
+			{
+				dEspera.ShowDialog(this);
+			}
+            dgvMantenimiento.DataSource = empleados;
+            dgvMantenimiento.Refresh();
+            dgvMantenimiento.ClearSelection();
+        }
 
 		private void timer1_Tick(object sender, EventArgs e)
 		{
@@ -51,13 +57,8 @@ namespace AEV6
 
 		private void CargarListaEmpleados() //Metodo para cargar el datagridview con los empleados ya dados de alta directamente desde la base de datos.
 		{
-            //if (bdatos.AbrirConexion())
-            //{
-            //Alarde - dgvMantenimiento.DataSource = Empleado.BuscarEmpleados(bdatos.Conexion);
-            //Alarde - bdatos.CerrarConexion();
-            //}
-            //else MessageBox.Show("No se ha podido conectar con la base de datos para cargar la lista de empleados.");
-        }
+			
+		}
 
         private bool ValidarDatos()
 		{
@@ -88,29 +89,29 @@ namespace AEV6
 		
         private void btnSalir_Click(object sender, EventArgs e)
         {
-            this.DialogResult = DialogResult.OK;
-
-           
+            DialogResult = DialogResult.OK;
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
-            DataAccess db = new DataAccess();
+            AccesoDatos db = new AccesoDatos();
             Empleado emp = new Empleado();
             if (ValidarDatos())
 			{
 				if(chkAdmin.Checked) //Si la casila de admin está marcada, usamos el constructor de empleado con clave
 				{
-                    emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, txtClave.Text);
+                    var confirmResult = MessageBox.Show("Se va a añadir un nuevo administrador, estás seguro de continuar?", "Confirmación", MessageBoxButtons.YesNo);
+                    if (confirmResult == DialogResult.Yes)
+                    {
+                        emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, txtClave.Text);
+                        db.AgregarEmpleado(emp);
+                        MessageBox.Show($"Usuario '{ txtNif.Text }' añadido correctamente.");
+                    }
                 }
                 else //Si no, usamos el constructor de un empleado normal
 				{
 					emp = new Empleado(txtNif.Text, txtNombre.Text, txtApellido.Text, chkAdmin.Checked, "");
-                }
-                var confirmResult = MessageBox.Show("Se va a añadir un nuevo administrador, estás seguro de continuar?", "Confirmación", MessageBoxButtons.YesNo);
-                if (confirmResult == DialogResult.Yes)
-                {
-                    db.InsertarEmpleado(emp);
+                    db.AgregarEmpleado(emp);
                     MessageBox.Show($"Usuario '{ txtNif.Text }' añadido correctamente.");
                 }
             }
@@ -119,7 +120,7 @@ namespace AEV6
 
         private void btnEliminar_Click(object sender, EventArgs e)
         {
-            DataAccess db = new DataAccess();
+            AccesoDatos db = new AccesoDatos();
             if (txtNif.Text == "")
             {
                 errorMantenimiento.SetError(txtNif, "El campo NIF no puede estar vacío para eliminar a un empleado.");
@@ -129,25 +130,40 @@ namespace AEV6
                 var confirmResult = MessageBox.Show($"Estás seguro que quieres borrar al empleado '{ txtNif.Text }'", "Confirmación", MessageBoxButtons.YesNo);
                 if (confirmResult == DialogResult.Yes)
                 {
-                    db.eliminaEmpleado(txtNif.Text);
-                    resetFields();
+                    db.EliminarEmpleado(txtNif.Text);
+                    VaciarCampos();
                 }
                 else
                 {
-                    resetFields();
+                    VaciarCampos();
                 }
             }
-            
         }
 
         private void btnInformes_Click(object sender, EventArgs e)
-        {
+		{
+			var formFichajes = new InformeFichajes();
+			formFichajes.ShowDialog();
+		}
 
+		private void DevolverEmpleados()
+        {
+            empleados = AccesoDatos.BuscarTodosEmpleados();
+        }
+
+		private void btnActualizar_Click(object sender, EventArgs e) //Actualiza de nuevo el datagrid mostrandote todos los empleados dados de alta
+		{
+            using (var dEspera = new pantallaEsperaForm(DevolverEmpleados)) //No da tiempo para su uso
+            {
+                dEspera.ShowDialog(this);
+            }
+            dgvMantenimiento.DataSource = empleados;
+            dgvMantenimiento.Refresh(); //Que vuelva a dibujar el datagrid
+            dgvMantenimiento.ClearSelection(); //Para desamarar las casillas, estetica
         }
 
         private void btnCerrar_Click_1(object sender, EventArgs e)
         {
-            //Alarde - bdatos.CerrarConexion();
             this.Dispose();
             Application.Exit();
         }
@@ -157,21 +173,20 @@ namespace AEV6
 
         }
 
-        public void buscarDni()
+        public void BuscarEmpleado()
         {
-            DataAccess db = new DataAccess();
-            empleados = db.GetEmployee(txtbuscar.Text);
+            empleados = AccesoDatos.BuscarEmpleado(txtbuscar.Text);
+            dgvMantenimiento.DataSource = empleados;
+            dgvMantenimiento.Refresh();
         }
 
 		private void btnBuscar_Click(object sender, EventArgs e)
 		{
             /*Lets call our database*/
-            using (var dEspera = new pantallaEsperaForm(buscarDni, "Buscando por DNI..."))
+            using (var dEspera = new pantallaEsperaForm(BuscarEmpleado))
             {
                 dEspera.ShowDialog(this);
             }
-            dgvMantenimiento.DataSource = empleados;
-            dgvMantenimiento.Refresh();
         }
 
 		private void chkAdmin_CheckedChanged(object sender, EventArgs e)
@@ -180,43 +195,21 @@ namespace AEV6
 			else txtClave.Enabled = true;
 		}
 
-        private void devuelveTodosEmpleados()
+        private void TxtNif_TextChanged(object sender, EventArgs e)
         {
-            DataAccess db = new DataAccess();
-            empleados = db.GetAllEmployees();
+            
         }
 
-		private void btnActualizar_Click(object sender, EventArgs e) //Actualiza de nuevo el datagrid mostrandote todos los empleados dados de alta
+		private void DgvMantenimiento_CellContentClick(object sender, DataGridViewCellEventArgs e)
 		{
-            var widthForm = mantenimientoForm.ActiveForm.Width;
-            var height = mantenimientoForm.ActiveForm.Height;
+			DataGridViewRow row = dgvMantenimiento.Rows[e.RowIndex];
+			txtNif.Text = row.Cells[0].Value.ToString();
+			txtNombre.Text = row.Cells[1].Value.ToString();
+			txtApellido.Text = row.Cells[2].Value.ToString();
 
-            using (var dEspera = new pantallaEsperaForm(devuelveTodosEmpleados, "Devolviendo lista de empleados..."))
-            {
-                dEspera.ShowDialog(this);
-            }
-            dgvMantenimiento.DataSource = empleados;
-            dgvMantenimiento.Refresh();
-            dgvMantenimiento.ClearSelection();
+			if (Boolean.Parse(row.Cells[3].Value.ToString())) chkAdmin.Checked = true;
+			else chkAdmin.Checked = false;
+            txtClave.Text = row.Cells[4].Value.ToString();
         }
-
-        private void DgvMantenimiento_CellContentClick_1(object sender, DataGridViewCellEventArgs e)
-        {
-            DataGridViewRow row = this.dgvMantenimiento.Rows[e.RowIndex];
-
-            //txtNif.Text = dgvMantenimiento[e.ColumnIndex, e.RowIndex].Value.ToString();
-            txtNif.Text = row.Cells[0].Value.ToString();
-            txtNombre.Text = row.Cells[1].Value.ToString();
-            txtApellido.Text = row.Cells[2].Value.ToString();
-
-            if (Boolean.Parse(row.Cells[3].Value.ToString()))
-            {
-                chkAdmin.Checked = true;
-            }
-            else
-            {
-                chkAdmin.Checked = false;
-            }
-        }
-    }
+	}
 }

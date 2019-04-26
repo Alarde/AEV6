@@ -1,0 +1,6 @@
+//TODO
+
+1. Usar try catch en las conexiones de base de datos
+2. Si alguien ficha de entrada pero no de salida y pasa un día, habrá que comprobar que fila tiene como salida '0' y además mirar que la fecha de entrada sea distinta a la de hoy, si todo es cierto, hacer un insert de ese fichaje y sacar una alerta de que el día X no fichó
+3. Revisar nombres de funciones
+4. Revisar si se duplican las filas al hacer un insert en la tabla de fichajes
